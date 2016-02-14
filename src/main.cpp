@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
-#include "SinePcm.h"
+#include "audio/SinePcm.h"
 #include <tclap/CmdLine.h>
 
 using namespace std;
