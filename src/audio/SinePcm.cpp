@@ -144,10 +144,10 @@ SinePcm::SinePcm( const uint32_t smpFreq )
     , m_duration( 0U )
     , m_sampleBuffer( NULL )
 {
-
+    
 }
 
-bool SinePcm::init( const uint32_t freqency, const float amplitude, const uint32_t duration )
+bool SinePcm::init( const uint32_t freqency, const uint8_t amplitude, const uint32_t duration )
 {  
     bool result = false;
     
@@ -161,10 +161,10 @@ bool SinePcm::init( const uint32_t freqency, const float amplitude, const uint32
         }
                 
         const double angleFactor = ( double( freqency ) * DEF_2_PI ) / double( m_samplingFreq );
-               
+        const double realAmplitude = double( amplitude ) / 100.;
         for ( uint32_t i = 0U; i < samplesCount(); i++ )
         {
-            const double sinAux = amplitude * ::std::sin( i * angleFactor );
+            const double sinAux = realAmplitude * ::std::sin( i * angleFactor );
             SingleSample( sinAux ).ffloat( m_sampleBuffer + ( i * sizeof( TSample ) ) );            
         }
         

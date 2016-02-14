@@ -6,6 +6,13 @@ Generate reference sound samples
 - support for LE16, BE16 and FLOAT 
 - define the signal frequency, amplitude, sample rate and duration
 
+## ChangeLog
+
+### 0.0.1
+2016-02-14
+- code cleanup
+- add missing arguments
+
 ## Building wavegen
 Requires the [TCLAP][10] parser and `TCLAP_HOME` environment variable
 set to directory containing [TCLAP][10].
