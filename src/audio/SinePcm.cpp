@@ -23,7 +23,7 @@
  *
  */
 
-#include "SinePcm.h"
+#include "audio/SinePcm.h"
 #include <cstddef>
 #include <cstring>
 #include <cmath>
@@ -208,7 +208,7 @@ bool SinePcm::checkFreqency( const uint32_t freq ) const
 
 SinePcm::~SinePcm()
 {
-	cleanUp();
+    cleanUp();
 }
 
 };
