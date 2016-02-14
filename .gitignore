@@ -37,6 +37,9 @@ nbproject
 # Logs
 *.log
 
+# other
+*.raw
+
 # Executables
 bin/*
 /build/

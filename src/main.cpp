@@ -29,28 +29,59 @@
 #include "audio/SinePcm.h"
 #include <tclap/CmdLine.h>
 
-using namespace std;
-
 namespace
-{
-    const uint32_t SAMPLE_RATE = 44100U;
+{  
+    /* Program name */
+    const ::std::string PROGRAM_NAME( "Sound Test" );
+    
+    /* Program Version */
+    const ::std::string PROGRAM_VER( "0.0.1" );
+    
+    /* Extra usge info */
+    const ::std::string USE_MESSAGE( "\
+\rDefaults:\n\
+\r- amplitude\t: 100%\n\
+\r- format\t: LE16\n\
+\r- duration\t: 1000 ms\n\
+\r- smp.rate\t: 44100 Hz\n\
+" );
+    
+    /* Print generator summary */
+    void printSummary( const uint32_t frequency, const uint8_t amplitude )
+    {
+        const int32_t num = ::printf(" %s ver.: %s", ::PROGRAM_NAME.c_str(), ::PROGRAM_VER.c_str() );
+        ::putchar( '\n' );
+        
+        for ( int32_t i = 0; i <= num; i++ )
+        {
+            ::putchar('-');
+        }
+        
+        ::putchar( '\n' );
+        
+        ::printf( "frequency\t: %u\n", frequency );
+        ::printf( "amplitude\t: %u\n", amplitude );        
+    }
 }
 
 int32_t main( int argc, const char * const * argv )
 {
-    ::TCLAP::CmdLine cmd( "Sound Test", ' ', "none", false );
+    ::TCLAP::CmdLine cmd( ::USE_MESSAGE, ' ', "none", false );
 
-    ::TCLAP::ValueArg<uint32_t> freqArg("f","frequency","Signal frequency", true,1000,"Hz");
-    ::TCLAP::ValueArg<float> amplArg("a","amplitude","Signal amplitude", true,1.0,"0.0..1.0");
-    ::TCLAP::ValueArg<string> outputFileArg("o","output","Output file to store the raw audio sample", false, "","file_name");
-    ::TCLAP::ValueArg<string> formatArg("e","format","Sample format: LE16, BE16 or FLOAT", false, "","format_name");
-    ::TCLAP::ValueArg<uint32_t> lengthArg("t","time","Sample duration", false, 1000, "ms");
-    
-    cmd.add( freqArg );
-    cmd.add( amplArg );
+    ::TCLAP::ValueArg<uint32_t> freqArg( "f", "frequency", "Signal frequency", true, 1000, "Hz" );
+    ::TCLAP::ValueArg<uint32_t> freqSmpArg( "s", "sample_rate", "Signal Sampling frequency", false, 44100, "Hz" );
+    ::TCLAP::ValueArg<uint16_t> amplArg( "a", "amplitude", "Signal amplitude in %", false, 100, "0..100" );
+    ::TCLAP::ValueArg<std::string> outputFileArg( "o", "output", "Output file to store the raw audio sample", true, "", "file_name" );
+    ::TCLAP::ValueArg<std::string> formatArg( "e", "format", "Sample format: LE16, BE16 or FLOAT", false, "", "format_name" );
+    ::TCLAP::ValueArg<uint32_t> lengthArg( "t", "time", "Sample duration", false, 1000, "ms" );
+
     cmd.add( lengthArg );
     cmd.add( formatArg );
-    cmd.add( outputFileArg );
+    cmd.add( freqSmpArg );
+    
+    cmd.add( outputFileArg );    
+    cmd.add( amplArg );
+    cmd.add( freqArg );    
         
     try
     {        
@@ -61,22 +92,23 @@ int32_t main( int argc, const char * const * argv )
         std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
     }
     
-    ::std::cout << cmd.getMessage() << ": Generate Sine sample with f=" << freqArg.getValue() 
-            << " Hz" << ". Length=" << lengthArg.getValue() << " ms" << ::std::endl;
+    const ::std::string fileName = outputFileArg.getValue();
+    const uint32_t frequency = freqArg.getValue();
+    const uint8_t amplitude = amplArg.getValue();
     
-    ::std::cout << "Sample rate = " << SAMPLE_RATE << " Hz" << ::std::endl;
+    ::printSummary( frequency, amplitude );
+        
+    ::audio::SinePcm sample1( freqSmpArg.getValue() );
     
-    ::audio::SinePcm sample1( SAMPLE_RATE );
-    
-    if ( sample1.init( freqArg.getValue(), 1.0F, lengthArg.getValue() ) )
+    if ( sample1.init( frequency, amplitude, lengthArg.getValue() ) )
     {
-        if ( outputFileArg.isSet() )
+        if ( !fileName.empty() )
         {
-            ::std::ofstream rawFile( outputFileArg.getValue().c_str(), ::std::ios::binary | ::std::ios::trunc );
+            ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
             
             sample1.toStream( rawFile );
             rawFile.close();
-            ::std::cout << "Sample stored to file '" << outputFileArg.getValue() << "'" << ::std::endl;
+            ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
         }
     }
     

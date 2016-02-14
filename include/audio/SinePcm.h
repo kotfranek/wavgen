@@ -66,7 +66,7 @@ public:
      * @arg amplitude
      * @arg duration Length in milliseconds
      */
-    bool init( const uint32_t freqency, const float amplitude, const uint32_t duration );
+    bool init( const uint32_t freqency, const uint8_t amplitude, const uint32_t duration );
     
     
     /**
