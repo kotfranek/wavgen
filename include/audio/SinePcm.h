@@ -29,17 +29,10 @@
 #include <stdint.h>
 #include <ostream>
 
+#include "audio/types.h"
+
 namespace audio
 {
-
-enum EFormat
-{
-    EFormat_LE16,
-    EFormat_BE16,
-    EFormat_Float,
-    EFormat_Invalid
-};
-
 
 EFormat getFormatbyName( const char* name );
 
