@@ -35,7 +35,7 @@ namespace
     const ::std::string PROGRAM_NAME( "Sound Test" );
     
     /* Program Version */
-    const ::std::string PROGRAM_VER( "0.0.1" );
+    const ::std::string PROGRAM_VER( "0.1.0" );
     
     /* Extra usge info */
     const ::std::string USE_MESSAGE( "\
@@ -98,15 +98,15 @@ int32_t main( int argc, const char * const * argv )
     
     ::printSummary( frequency, amplitude );
         
-    ::audio::SinePcm sample1( freqSmpArg.getValue() );
+    ::audio::SinePcm sample( freqSmpArg.getValue() );
     
-    if ( sample1.init( frequency, amplitude, lengthArg.getValue() ) )
+    if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
     {
         if ( !fileName.empty() )
         {
             ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
             
-            sample1.toStream( rawFile );
+            sample.toStream( rawFile );
             rawFile.close();
             ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
         }
