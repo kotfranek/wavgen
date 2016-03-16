@@ -76,12 +76,14 @@ int32_t main( int argc, const char * const * argv )
     ::TCLAP::ValueArg<std::string> outputFileArg( "o", "output", "Output file to store the raw audio sample", true, "", "file_name" );
     ::TCLAP::ValueArg<std::string> formatArg( "e", "format", "Sample format: LE16, BE16 or FLOAT", false, "", "format_name" );
     ::TCLAP::ValueArg<uint32_t> lengthArg( "t", "time", "Sample duration", false, 1000, "ms" );
+    ::TCLAP::SwitchArg loopArg( "l", "loop_enable", "Enable playing of the sample in loops (fill with complete periods)" );
     
     ::printf( "Signal Shape: %s, %s\n", ::audio::TSignalShapeConverter().name( ::audio::ESignalShape_Saw ), ::audio::TSignalShapeConverter().description( ::audio::ESignalShape_Saw ) );
 
     cmd.add( lengthArg );
     cmd.add( formatArg );
     cmd.add( freqSmpArg );
+    cmd.add( loopArg );
     
     cmd.add( outputFileArg );    
     cmd.add( amplArg );
