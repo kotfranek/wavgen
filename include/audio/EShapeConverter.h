@@ -23,37 +23,45 @@
  *
  */
 
-
 /* 
- * File:   types.h
+ * File:   EShapeConverter.h
  * Author: kret
  *
- * Created on March 15, 2016, 11:16 PM
+ * Created on March 16, 2016, 10:00 PM
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef ESHAPECONVERTER_H
+#define ESHAPECONVERTER_H
+
+#include "audio/types.h"
+#include "audio/TextEnumConverter.h"
 
 namespace audio
 {
-    /* Audio sample format */
-    enum ESampleFormat
+    typedef EnumDescriptor<ESignalShape> TSignalShape;
+    
+    constexpr TSignalShape SIGNAL_SHAPES[] =
     {
-        ESampleFormat_LE16,
-        ESampleFormat_BE16,
-        ESampleFormat_Float,
-        ESampleFormat_Invalid,
+        { ESignalShape_Saw, "saw", "Saw-Shape Signal" },
+        { ESignalShape_Sin, "sin", "Sinus-Shape Signal" },
+        { ESignalShape_Triangle, "triangle", "Triangle-Shape Signal" },
+        { ESignalShape_Square, "square", "Square-Shape Signal" },
+        { ESignalShape_Invalid, "invalid", "Unknown Signal Shape" },        
     };
     
-    enum ESignalShape
+    typedef EnumDescriptor<ESampleFormat> TSampleFormat;
+    
+    constexpr TSampleFormat SAMPLE_FORMATS[] =
     {
-        ESignalShape_Sin,
-        ESignalShape_Saw,
-        ESignalShape_Square,
-        ESignalShape_Triangle,
-        ESignalShape_Invalid,
-    };
-};
+        { ESampleFormat_BE16, "BE16", "16-bit Big-Endian" },
+        { ESampleFormat_LE16, "LE16", "16-bit Little-Endian" },
+        { ESampleFormat_Float, "Float", "32-bit IEEE 754 float" },
+        { ESampleFormat_Invalid, "invalid", "Unknown Sample Format" },
+    };    
+    
+    typedef TextEnumConverter< ESignalShape, SIGNAL_SHAPES, 5U > TSignalShapeConverter;
+    typedef TextEnumConverter< ESampleFormat, SAMPLE_FORMATS, 4U > TSampleFormatConverter;
+}
 
-#endif /* TYPES_H */
+#endif /* ESHAPECONVERTER_H */
 

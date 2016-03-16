@@ -47,25 +47,12 @@ namespace
             return 0 == strcmp( m_formatName, name );
         }
         
-        const ::audio::EFormat m_format;
+        const ::audio::ESampleFormat m_format;
         const char* m_formatName;
         const uint8_t m_sampleSize;
     };
     
-    
-    const AudioFormatInfo INVALID = { ::audio::EFormat_Invalid, "----", 0U };
-    
-    
-    const AudioFormatInfo SAMPLE_FORMATS[] = 
-    {
-        { ::audio::EFormat_LE16, "LE16", 2U }, 
-        { ::audio::EFormat_BE16, "LE16", 2U },
-        { ::audio::EFormat_Float, "FLOAT", 4U },
-    };
-    
-    
-    const size_t SAMPLE_FORMATS_NUM = sizeof( SAMPLE_FORMATS ) / sizeof( SAMPLE_FORMATS[ 0 ] );
-    
+       
     /* Single sample */
     class SingleSample
     {
@@ -120,25 +107,7 @@ namespace
 }
 
 namespace audio
-{
-    
-EFormat getFormatbyName( const char* name )
-{
-    EFormat result = EFormat_Invalid;
-    
-    for ( size_t i = 0U; i < SAMPLE_FORMATS_NUM; i++ )
-    {
-        if ( SAMPLE_FORMATS[ i ].isFormat( name ) )
-        {
-            result = SAMPLE_FORMATS[ i ].m_format;
-            break;
-        }
-    }
-    
-    return result;
-}
-
-
+{    
 SinePcm::SinePcm( const uint32_t smpFreq )
     : m_samplingFreq( smpFreq )
     , m_duration( 0U )

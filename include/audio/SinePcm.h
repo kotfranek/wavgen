@@ -34,7 +34,7 @@
 namespace audio
 {
 
-EFormat getFormatbyName( const char* name );
+ESampleFormat getFormatbyName( const char* name );
 
 class SinePcm
 {
