@@ -77,6 +77,7 @@ namespace audio
         { EError_MemAlloc, "Memory Alloc.", "Insufficient memory" },
         { EError_FileSave, "File", "Saving sample to file failed" },
         { EError_NoError, "Success", "Operation succeeded" },
+        { EError_Other, "Other", "Unspecified problem" },        
     };
     
     typedef TextEnumConverter< ESignalShape, SIGNAL_SHAPES, arraySize( SIGNAL_SHAPES ) > TSignalShapeConverter;

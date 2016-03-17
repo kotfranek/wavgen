@@ -25,6 +25,7 @@ add_library( wavgen STATIC
     src/audio/SinePcm.cpp
     src/audio/WaveParameters.cpp
     src/audio/PcmSample.cpp
+    src/audio/SineGenerator.cpp
 )
 
 # Demo application: sources

@@ -36,6 +36,7 @@
 #include <stdint.h>
 #include <string>
 #include "audio/types.h"
+#include "audio/SampleContext.h"
 
 namespace audio
 {
@@ -70,44 +71,15 @@ namespace audio
          * @return C++ string with data
          */
         ::std::string toString() const;
-        
+                
         /**
-         * Get the signal frequency
+         * Expose the Signal Sample Context
          * @return 
          */
-        uint32_t getFrequency() const
+        const SampleContext& getContext() const
         {
-            return m_frequency;
-        }        
-        
-        /**
-         * Get the sampling frequency
-         * @return 
-         */
-        uint32_t getSamplingFrequency() const
-        {
-            return m_samplingFrequency;
+            return m_context;
         }
-        
-        /**
-         * Get the signal amplitude
-         * @return 
-         */
-        uint8_t getAmplitude() const
-        {
-            return m_amplitude;
-        }
-        
-        
-        /**
-         * Get sample length in ms
-         * @return 
-         */
-        uint32_t getDuration() const
-        {
-            return m_duration;
-        }
-        
         
         /**
          * Get the output format
@@ -117,32 +89,10 @@ namespace audio
         {
             return m_outputFormat;
         }
-        
-        
-        /**
-         * Get the signal shape
-         * @return 
-         */
-        ESignalShape getShape() const
-        {
-            return m_shape;
-        }
-        
+                        
     private:
-        /* Signal frequency */
-        const uint32_t m_frequency;
-        
-        /* Sampling frequency */
-        const uint32_t m_samplingFrequency;
-        
-        /* Signal amplitude (%) */
-        const uint8_t m_amplitude;
-        
-        /* Length in ms */
-        const uint32_t m_duration;
-        
-        /* Signal shape */
-        const ::audio::ESignalShape m_shape;
+        /* Signal Sample Context */
+        const SampleContext m_context;
         
         /* Output format */
         const ::audio::ESampleFormat m_outputFormat;

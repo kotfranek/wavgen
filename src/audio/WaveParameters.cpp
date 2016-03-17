@@ -40,11 +40,8 @@ namespace audio
 WaveParameters::WaveParameters( const uint32_t freq, const uint8_t amplitude
     , const uint32_t samplFreq, const uint32_t duration
     , const char* shape, const char* format ) 
-    : m_frequency( freq )
-    , m_samplingFrequency( samplFreq )
-    , m_amplitude( amplitude )
-    , m_duration( duration )
-    , m_shape( TSignalShapeConverter().enumeration( shape ) )
+    : m_context( freq , samplFreq, amplitude, duration
+        , TSignalShapeConverter().enumeration( shape ) )
     , m_outputFormat( TSampleFormatConverter().enumeration( format ) )
 {
 
@@ -53,22 +50,22 @@ WaveParameters::WaveParameters( const uint32_t freq, const uint8_t amplitude
 
 EError WaveParameters::validate() const
 {    
-    if ( m_samplingFrequency < 2U * m_frequency )
+    if ( m_context.getSamplingFrequency() < 2U * m_context.getFrequency() )
     {
         return EError_FSampl;
     }
     
-    if ( m_amplitude > 100U )
+    if ( m_context.getAmplitude() > 100U )
     {
         return EError_Amplitude;
     }
     
-    if ( m_duration == 0U )
+    if ( m_context.getDuration() == 0U )
     {
         return EError_Duration;
     }
     
-    if ( m_shape == ESignalShape_Invalid )
+    if ( m_context.getShape() == ESignalShape_Invalid )
     {
         return EError_Shape;
     }

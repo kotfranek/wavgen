@@ -37,10 +37,7 @@ namespace audio
 class SinePcm
 {
 public:
-    /* Sample type */
-    typedef float TSample;    
-    
-    
+        
     /**
      * Default constructor
      * @arg fSampl Audio I/O sampling freqency in Hz, eg 44100 or 48000

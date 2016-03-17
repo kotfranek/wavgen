@@ -36,6 +36,9 @@
 
 namespace audio
 {
+    /* Single sample */
+    typedef float TSample;
+        
     /* Audio sample format */
     enum ESampleFormat
     {
@@ -64,6 +67,7 @@ namespace audio
         EError_MemAlloc,
         EError_FileSave,
         EError_NoError,
+        EError_Other,        
     };
 };
 
