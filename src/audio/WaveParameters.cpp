@@ -38,10 +38,12 @@ namespace audio
 {
 
 WaveParameters::WaveParameters( const uint32_t freq, const uint8_t amplitude
-    , const uint32_t samplFreq, const char* shape, const char* format ) 
+    , const uint32_t samplFreq, const uint32_t duration
+    , const char* shape, const char* format ) 
     : m_frequency( freq )
     , m_samplingFrequency( samplFreq )
     , m_amplitude( amplitude )
+    , m_duration( duration )
     , m_shape( TSignalShapeConverter().enumeration( shape ) )
     , m_outputFormat( TSampleFormatConverter().enumeration( format ) )
 {

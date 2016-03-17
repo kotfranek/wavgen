@@ -103,17 +103,18 @@ int32_t main( int argc, const char * const * argv )
     
     const uint32_t frequency = freqArg.getValue();
     const uint32_t freqSampl = freqSmpArg.getValue();
+    const uint32_t length = lengthArg.getValue();
     const uint8_t amplitude = amplArg.getValue();
     
     ::printSummary( frequency, amplitude );
     
-    ::audio::WaveParameters waveParams( frequency, amplitude, freqSampl, "sin", format.c_str() );
+    ::audio::WaveParameters waveParams( frequency, amplitude, freqSampl, length, "sin", format.c_str() );
     
     const ::audio::EError errorParams = waveParams.validate();
     
     if ( ::audio::EError_NoError == errorParams )
     {
-        ::audio::SinePcm sample( freqSmpArg.getValue() );
+        ::audio::PcmSample sample( freqSmpArg.getValue() );
 
         if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
         {
