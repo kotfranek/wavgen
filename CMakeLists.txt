@@ -24,6 +24,7 @@ include_directories(
 add_library( wavgen STATIC
     src/audio/SinePcm.cpp
     src/audio/WaveParameters.cpp
+    src/audio/PcmSample.cpp
 )
 
 # Demo application: sources
