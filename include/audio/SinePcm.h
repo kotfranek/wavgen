@@ -34,7 +34,7 @@
 namespace audio
 {
 
-class PcmSample
+class SinePcm
 {
 public:
     /* Sample type */
@@ -45,10 +45,10 @@ public:
      * Default constructor
      * @arg fSampl Audio I/O sampling freqency in Hz, eg 44100 or 48000
      */
-    explicit PcmSample( const uint32_t smpFreq );
+    explicit SinePcm( const uint32_t smpFreq );
     
     
-    ~PcmSample();
+    ~SinePcm();
     
     
     /**

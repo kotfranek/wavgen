@@ -114,7 +114,7 @@ int32_t main( int argc, const char * const * argv )
     
     if ( ::audio::EError_NoError == errorParams )
     {
-        ::audio::PcmSample sample( freqSmpArg.getValue() );
+        ::audio::SinePcm sample( freqSmpArg.getValue() );
 
         if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
         {

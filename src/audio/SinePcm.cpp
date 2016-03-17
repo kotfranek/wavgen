@@ -93,7 +93,7 @@ namespace
 
 namespace audio
 {    
-PcmSample::PcmSample( const uint32_t smpFreq )
+SinePcm::SinePcm( const uint32_t smpFreq )
     : m_samplingFreq( smpFreq )
     , m_duration( 0U )
     , m_sampleBuffer( NULL )
@@ -101,7 +101,7 @@ PcmSample::PcmSample( const uint32_t smpFreq )
     
 }
 
-bool PcmSample::init( const uint32_t freqency, const uint8_t amplitude, const uint32_t duration )
+bool SinePcm::init( const uint32_t freqency, const uint8_t amplitude, const uint32_t duration )
 {  
     bool result = false;
     
@@ -129,7 +129,7 @@ bool PcmSample::init( const uint32_t freqency, const uint8_t amplitude, const ui
 }
 
 
-void PcmSample::copyToBuffer( void* destination, const uint32_t samples )
+void SinePcm::copyToBuffer( void* destination, const uint32_t samples )
 {
     if ( NULL != destination && NULL != m_sampleBuffer )
     {
@@ -138,14 +138,14 @@ void PcmSample::copyToBuffer( void* destination, const uint32_t samples )
 }
 
 
-void audio::PcmSample::toStream( std::ostream& output ) const
+void audio::SinePcm::toStream( std::ostream& output ) const
 {
     output.write( reinterpret_cast<char*>( m_sampleBuffer ), samplesCount() * sizeof( TSample ) );
 }
 
 
 
-void PcmSample::cleanUp()
+void SinePcm::cleanUp()
 {
     delete[] m_sampleBuffer;    
     m_sampleBuffer = NULL;
@@ -153,14 +153,14 @@ void PcmSample::cleanUp()
 }
 
 
-bool PcmSample::checkFreqency( const uint32_t freq ) const
+bool SinePcm::checkFreqency( const uint32_t freq ) const
 {
     return ( 0U != freq && m_samplingFreq >= ( freq * 2U ) );
 }
 
 
 
-PcmSample::~PcmSample()
+SinePcm::~SinePcm()
 {
     cleanUp();
 }
