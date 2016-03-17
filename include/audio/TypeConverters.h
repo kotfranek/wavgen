@@ -72,6 +72,7 @@ namespace audio
         { EError_FSampl, "Sampling Freq.", "Sampling frequency not sufficient" },
         { EError_Shape, "Shape", "Unsupported signal shape" },
         { EError_Amplitude, "Amplitude", "Invalid amplitude" },        
+        { EError_Duration, "Duration", "Invalid signal duration" },    
         { EError_Format, "Format", "Unsupported output format" },
         { EError_MemAlloc, "Memory Alloc.", "Insufficient memory" },
         { EError_FileSave, "File", "Saving sample to file failed" },

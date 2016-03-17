@@ -61,6 +61,11 @@ EError WaveParameters::validate() const
         return EError_Amplitude;
     }
     
+    if ( m_duration == 0U )
+    {
+        return EError_Duration;
+    }
+    
     if ( m_shape == ESignalShape_Invalid )
     {
         return EError_Shape;

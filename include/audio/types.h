@@ -59,6 +59,7 @@ namespace audio
         EError_FSampl,
         EError_Shape,
         EError_Amplitude,
+        EError_Duration,
         EError_Format,
         EError_MemAlloc,
         EError_FileSave,

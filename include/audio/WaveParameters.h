@@ -49,12 +49,13 @@ namespace audio
          * @param freq
          * @param amplitude
          * @param samplFreq
+         * @pram duration in ms
          * @param shape
          * @param format
          */
         WaveParameters( const uint32_t freq, const uint8_t amplitude
-                , const uint32_t samplFreq, const char* shape
-                , const char* format 
+                , const uint32_t samplFreq, const uint32_t duration
+                , const char* shape, const char* format 
                 );
         
         /**
@@ -99,6 +100,16 @@ namespace audio
         
         
         /**
+         * Get sample length in ms
+         * @return 
+         */
+        uint32_t getDuration() const
+        {
+            return m_duration;
+        }
+        
+        
+        /**
          * Get the output format
          * @return 
          */
@@ -126,6 +137,9 @@ namespace audio
         
         /* Signal amplitude (%) */
         const uint8_t m_amplitude;
+        
+        /* Length in ms */
+        const uint32_t m_duration;
         
         /* Signal shape */
         const ::audio::ESignalShape m_shape;
