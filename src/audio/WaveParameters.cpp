@@ -24,44 +24,63 @@
  */
 
 /* 
- * File:   EShapeConverter.h
+ * File:   WaveParameters.cpp
  * Author: kret
- *
- * Created on March 16, 2016, 10:00 PM
+ * 
+ * Created on March 17, 2016, 8:23 PM
  */
 
-#ifndef ESHAPECONVERTER_H
-#define ESHAPECONVERTER_H
-
-#include "audio/types.h"
+#include "audio/WaveParameters.h"
 #include "audio/TextEnumConverter.h"
+#include "audio/TypeConverters.h"
 
-namespace audio
+namespace audio 
 {
-    typedef EnumDescriptor<ESignalShape> TSignalShape;
-    
-    constexpr TSignalShape SIGNAL_SHAPES[] =
-    {
-        { ESignalShape_Saw, "saw", "Saw-Shape Signal" },
-        { ESignalShape_Sin, "sin", "Sinus-Shape Signal" },
-        { ESignalShape_Triangle, "triangle", "Triangle-Shape Signal" },
-        { ESignalShape_Square, "square", "Square-Shape Signal" },
-        { ESignalShape_Invalid, "invalid", "Unknown Signal Shape" },        
-    };
-    
-    typedef EnumDescriptor<ESampleFormat> TSampleFormat;
-    
-    constexpr TSampleFormat SAMPLE_FORMATS[] =
-    {
-        { ESampleFormat_BE16, "BE16", "16-bit Big-Endian" },
-        { ESampleFormat_LE16, "LE16", "16-bit Little-Endian" },
-        { ESampleFormat_Float, "Float", "32-bit IEEE 754 float" },
-        { ESampleFormat_Invalid, "invalid", "Unknown Sample Format" },
-    };    
-    
-    typedef TextEnumConverter< ESignalShape, SIGNAL_SHAPES, 5U > TSignalShapeConverter;
-    typedef TextEnumConverter< ESampleFormat, SAMPLE_FORMATS, 4U > TSampleFormatConverter;
+
+WaveParameters::WaveParameters( const uint32_t freq, const uint8_t amplitude
+    , const uint32_t samplFreq, const char* shape, const char* format ) 
+    : m_frequency( freq )
+    , m_samplingFrequency( samplFreq )
+    , m_amplitude( amplitude )
+    , m_shape( TSignalShapeConverter().enumeration( shape ) )
+    , m_outputFormat( TSampleFormatConverter().enumeration( format ) )
+{
+
 }
 
-#endif /* ESHAPECONVERTER_H */
+
+EError WaveParameters::validate() const
+{    
+    if ( m_samplingFrequency < 2U * m_frequency )
+    {
+        return EError_FSampl;
+    }
+    
+    if ( m_amplitude > 100U )
+    {
+        return EError_Amplitude;
+    }
+    
+    if ( m_shape == ESignalShape_Invalid )
+    {
+        return EError_Shape;
+    }
+    
+    if ( m_outputFormat == ESampleFormat_Invalid )
+    {
+        return EError_Format;
+    }
+    
+    return EError_NoError;
+}
+
+
+::std::string WaveParameters::toString() const
+{
+    ::std::string result;
+    
+    return result;
+}
+ 
+};
 

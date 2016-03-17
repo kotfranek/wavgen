@@ -23,48 +23,71 @@
  *
  */
 
-
 /* 
- * File:   types.h
+ * File:   WaveParameters.h
  * Author: kret
  *
- * Created on March 15, 2016, 11:16 PM
+ * Created on March 17, 2016, 8:23 PM
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef WAVEPARAMETERS_H
+#define WAVEPARAMETERS_H
+
+#include <stdint.h>
+#include <string>
+#include "audio/types.h"
 
 namespace audio
 {
-    /* Audio sample format */
-    enum ESampleFormat
+
+    class WaveParameters 
     {
-        ESampleFormat_LE16,
-        ESampleFormat_BE16,
-        ESampleFormat_Float,
-        ESampleFormat_Invalid,
+    public:
+        /**
+         * Wave Signal Parameter Context
+         * 
+         * @param freq
+         * @param amplitude
+         * @param samplFreq
+         * @param shape
+         * @param format
+         */
+        WaveParameters( const uint32_t freq, const uint8_t amplitude
+                , const uint32_t samplFreq, const char* shape
+                , const char* format 
+                );
+        
+        /**
+         * Check if the given parameters are valid and generation will succeed
+         * @return error value
+         */
+        EError validate() const;
+        
+        
+        /**
+         * Generate a summary
+         * @return C++ string with data
+         */
+        ::std::string toString() const;
+        
+    private:
+        /* Signal frequency */
+        const uint32_t m_frequency;
+        
+        /* Sampling frequency */
+        const uint32_t m_samplingFrequency;
+        
+        /* Signal amplitude (%) */
+        const uint8_t m_amplitude;
+        
+        /* Signal shape */
+        const ::audio::ESignalShape m_shape;
+        
+        /* Output format */
+        const ::audio::ESampleFormat m_outputFormat;
     };
-    
-    enum ESignalShape
-    {
-        ESignalShape_Sin,
-        ESignalShape_Saw,
-        ESignalShape_Square,
-        ESignalShape_Triangle,
-        ESignalShape_Invalid,
-    };
-    
-    enum EError
-    {
-        EError_FSampl,
-        EError_Shape,
-        EError_Amplitude,
-        EError_Format,
-        EError_MemAlloc,
-        EError_FileSave,
-        EError_NoError,
-    };
+
 };
 
-#endif /* TYPES_H */
+#endif /* WAVEPARAMETERS_H */
 

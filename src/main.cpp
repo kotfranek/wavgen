@@ -28,7 +28,8 @@
 #include <fstream>
 #include "audio/SinePcm.h"
 #include "audio/TextEnumConverter.h"
-#include "audio/EShapeConverter.h"
+#include "audio/TypeConverters.h"
+#include "audio/WaveParameters.h"
 #include <tclap/CmdLine.h>
 
 namespace
@@ -63,7 +64,7 @@ namespace
         
         ::printf( "frequency\t: %u\n", frequency );
         ::printf( "amplitude\t: %u\n", amplitude );        
-    }
+    }       
 }
 
 int32_t main( int argc, const char * const * argv )
@@ -74,11 +75,9 @@ int32_t main( int argc, const char * const * argv )
     ::TCLAP::ValueArg<uint32_t> freqSmpArg( "s", "sample_rate", "Signal Sampling frequency", false, 44100, "Hz" );
     ::TCLAP::ValueArg<uint16_t> amplArg( "a", "amplitude", "Signal amplitude in %", false, 100, "0..100" );
     ::TCLAP::ValueArg<std::string> outputFileArg( "o", "output", "Output file to store the raw audio sample", true, "", "file_name" );
-    ::TCLAP::ValueArg<std::string> formatArg( "e", "format", "Sample format: LE16, BE16 or FLOAT", false, "", "format_name" );
+    ::TCLAP::ValueArg<std::string> formatArg( "e", "format", "Sample format: LE16, BE16 or FLOAT", false, "BE16", "format_name" );
     ::TCLAP::ValueArg<uint32_t> lengthArg( "t", "time", "Sample duration", false, 1000, "ms" );
-    ::TCLAP::SwitchArg loopArg( "l", "loop_enable", "Enable playing of the sample in loops (fill with complete periods)" );
-    
-    ::printf( "Signal Shape: %s, %s\n", ::audio::TSignalShapeConverter().name( ::audio::ESignalShape_Saw ), ::audio::TSignalShapeConverter().description( ::audio::ESignalShape_Saw ) );
+    ::TCLAP::SwitchArg loopArg( "l", "loop_enable", "Enable playing of the sample in loops (fill with complete periods)" );    
 
     cmd.add( lengthArg );
     cmd.add( formatArg );
@@ -98,25 +97,41 @@ int32_t main( int argc, const char * const * argv )
         std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
     }
     
-    const ::std::string fileName = outputFileArg.getValue();
+    const ::std::string& fileName = outputFileArg.getValue();
+    //const ::std::string& shape = outputFileArg.getValue();
+    const ::std::string& format = formatArg.getValue();
+    
     const uint32_t frequency = freqArg.getValue();
+    const uint32_t freqSampl = freqSmpArg.getValue();
     const uint8_t amplitude = amplArg.getValue();
     
     ::printSummary( frequency, amplitude );
-        
-    ::audio::SinePcm sample( freqSmpArg.getValue() );
     
-    if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
+    ::audio::WaveParameters waveParams( frequency, amplitude, freqSampl, "sin", format.c_str() );
+    
+    const ::audio::EError errorParams = waveParams.validate();
+    
+    if ( ::audio::EError_NoError == errorParams )
     {
-        if ( !fileName.empty() )
+        ::audio::SinePcm sample( freqSmpArg.getValue() );
+
+        if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
         {
-            ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
-            
-            sample.toStream( rawFile );
-            rawFile.close();
-            ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
-        }
+            if ( !fileName.empty() )
+            {
+                ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
+
+                sample.toStream( rawFile );
+                rawFile.close();
+                ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
+            }
+        }        
     }
+    else
+    {
+        ::printf( "Error: %s\n", ::audio::TErrorConverter().description( errorParams ) );
+    }
+        
     
     return 0;
 }

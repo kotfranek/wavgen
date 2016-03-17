@@ -84,7 +84,7 @@ namespace audio
         {
             for ( size_t i = 0U; i < SIZE; i++ )
             {
-                if ( 0 == strcpy( PTR[ i ].m_name, name ) )
+                if ( 0 == strcmp( PTR[ i ].m_name, name ) )
                 {
                     return PTR[ i ].m_value;
                 }
