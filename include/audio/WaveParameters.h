@@ -70,6 +70,53 @@ namespace audio
          */
         ::std::string toString() const;
         
+        /**
+         * Get the signal frequency
+         * @return 
+         */
+        uint32_t getFrequency() const
+        {
+            return m_frequency;
+        }        
+        
+        /**
+         * Get the sampling frequency
+         * @return 
+         */
+        uint32_t getSamplingFrequency() const
+        {
+            return m_samplingFrequency;
+        }
+        
+        /**
+         * Get the signal amplitude
+         * @return 
+         */
+        uint8_t getAmplitude() const
+        {
+            return m_amplitude;
+        }
+        
+        
+        /**
+         * Get the output format
+         * @return 
+         */
+        ESampleFormat getFormat() const
+        {
+            return m_outputFormat;
+        }
+        
+        
+        /**
+         * Get the signal shape
+         * @return 
+         */
+        ESignalShape getShape() const
+        {
+            return m_shape;
+        }
+        
     private:
         /* Signal frequency */
         const uint32_t m_frequency;
