@@ -36,22 +36,7 @@
 namespace 
 {
     /* 2 * PI Constant */
-    const double DEF_2_PI = 2.0 * 3.141592653589793238462643383279502884;
-    
-
-    
-    struct AudioFormatInfo
-    {
-        bool isFormat( const char* name ) const
-        {
-            return 0 == strcmp( m_formatName, name );
-        }
-        
-        const ::audio::ESampleFormat m_format;
-        const char* m_formatName;
-        const uint8_t m_sampleSize;
-    };
-    
+    const double DEF_2_PI = 2.0 * 3.141592653589793238462643383279502884;    
        
     /* Single sample */
     class SingleSample
