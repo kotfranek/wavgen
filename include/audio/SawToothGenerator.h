@@ -23,54 +23,56 @@
  *
  */
 
+
 /* 
- * File:   SineGenerator.cpp
+ * File:   SawToothGenerator.h
  * Author: kret
- * 
+ *
  * Created on March 18, 2016, 12:13 AM
  */
 
-#include "audio/SineGenerator.h"
-#include <cmath>
+#ifndef SAWTOOTHGENERATOR_H
+#define SAWTOOTHGENERATOR_H
 
-namespace
-{
-    /* 2 * PI Constant */
-    const ::audio::TSample DEF_2_PI = 2.0 * 3.141592653589793238462643383279502884;  
-
-    /**
-     * Calculate the Angle Factor
-     * @param f
-     * @param fSampl
-     * @return angle factor
-     */
-    ::audio::TSample angleFactor( const uint32_t f, const uint32_t fSampl )
-    {
-        ::audio::TSample result = 0.0;
-        
-        if ( 0 != fSampl )
-        {
-            result = ( ::audio::TSample( f ) * DEF_2_PI ) / ::audio::TSample( fSampl );
-        }
-        
-        return result;
-    }
-}
+#include <cstdint>
+#include "audio/IGenerator.h"
 
 namespace audio
-{
-
-    SineGenerator::SineGenerator( const uint32_t f, const uint32_t fSampl )
-    : IGenerator()
-    , m_angleFactor( ::angleFactor( f, fSampl ) )
-{
-}
-    
-    TSample SineGenerator::sample( const size_t index )
+{    
+    /**
+     * Generate a reference SINE wave form
+     */
+    class SawToothGenerator : public IGenerator
     {
-        return ::std::sin( TSample( index ) * m_angleFactor );
-    }
+    public:
+        /**
+         * Constructor
+         * @param f Signal Frequency [Hz]
+         * @param fSampl Sampling Frequency [Hz]
+         */
+        SawToothGenerator( const uint32_t f, const uint32_t fSampl );
 
+        /**
+         * Destructor
+         */
+        virtual ~SawToothGenerator()
+        {        
+        }
+        
+        
+        /**
+         * @see IGenerator
+         */
+        virtual TSample sample( const size_t index );
+        
+    private:                 
+        /* Samples count per period */
+        const uint32_t m_periodLength;
+        
+        /* Shape factor */
+        const TSample m_factor;        
+    };
 };
 
+#endif /* SAWTOOTHGENERATOR_H */
 

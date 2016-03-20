@@ -22,35 +22,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-
 /* 
- * File:   SineGenerator.cpp
+ * File:   SawToothGenerator.cpp
  * Author: kret
  * 
  * Created on March 18, 2016, 12:13 AM
  */
 
-#include "audio/SineGenerator.h"
+#include "audio/SawToothGenerator.h"
 #include <cmath>
 
 namespace
 {
-    /* 2 * PI Constant */
-    const ::audio::TSample DEF_2_PI = 2.0 * 3.141592653589793238462643383279502884;  
-
-    /**
-     * Calculate the Angle Factor
-     * @param f
-     * @param fSampl
-     * @return angle factor
-     */
-    ::audio::TSample angleFactor( const uint32_t f, const uint32_t fSampl )
+    uint32_t periodLength( const uint32_t f, const uint32_t fSampl )
     {
-        ::audio::TSample result = 0.0;
+        uint32_t result = fSampl / f;
         
-        if ( 0 != fSampl )
+        if ( ( fSampl % f ) > ( result / 2U ) )
         {
-            result = ( ::audio::TSample( f ) * DEF_2_PI ) / ::audio::TSample( fSampl );
+            ++result;
         }
         
         return result;
@@ -60,15 +50,18 @@ namespace
 namespace audio
 {
 
-    SineGenerator::SineGenerator( const uint32_t f, const uint32_t fSampl )
+    SawToothGenerator::SawToothGenerator( const uint32_t f, const uint32_t fSampl )
     : IGenerator()
-    , m_angleFactor( ::angleFactor( f, fSampl ) )
+    , m_periodLength( ::periodLength( f, fSampl ) )    
+    , m_factor( 1.0 / TSample( m_periodLength ) )
 {
 }
     
-    TSample SineGenerator::sample( const size_t index )
+    TSample SawToothGenerator::sample( const size_t index )
     {
-        return ::std::sin( TSample( index ) * m_angleFactor );
+        const size_t normalizedX = index % m_periodLength;
+        
+        return m_factor * TSample( normalizedX );
     }
 
 };
