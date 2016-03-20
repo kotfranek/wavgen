@@ -34,6 +34,7 @@
 #include "audio/SampleContext.h"
 #include "audio/SineGenerator.h"
 #include "audio/SawToothGenerator.h"
+#include "audio/TriangleGenerator.h"
 
 namespace
 {
@@ -78,7 +79,7 @@ EError PcmSample::generate( const SampleContext& params )
     
     if ( prepareBuffer( numSamples ) )
     {
-        SawToothGenerator g( params.getFrequency(), params.getSamplingFrequency() );
+        TriangleGenerator g( params.getFrequency(), params.getSamplingFrequency() );
         for ( size_t i = 0; i < numSamples; i++ )
         {
             m_buffer[ i ] = g.sample( i );
