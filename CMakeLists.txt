@@ -12,7 +12,7 @@ project( "wavgen" )
 
 # Compiler and linker flags
 set( CPP_COMPILE_FLAGS "-g -Wall -std=c++11" )
-set( CPP_LINK_FLAGS "-o3" )
+#set( CPP_LINK_FLAGS "" )
 
 # Header files locations
 include_directories( 
@@ -44,7 +44,7 @@ target_link_libraries( sndtest
 # Set the compiler and linker flags for particular targets
 set_target_properties( wavgen PROPERTIES COMPILE_FLAGS ${CPP_COMPILE_FLAGS} )
 set_target_properties( sndtest PROPERTIES COMPILE_FLAGS ${CPP_COMPILE_FLAGS} )
-set_target_properties( sndtest PROPERTIES LINK_FLAGS ${CPP_LINK_FLAGS} )
+#set_target_properties( sndtest PROPERTIES LINK_FLAGS ${CPP_LINK_FLAGS} )
 
 # Target install
 install( TARGETS sndtest DESTINATION bin )

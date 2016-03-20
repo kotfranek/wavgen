@@ -1,10 +1,19 @@
 # wavgen
-Generate reference sound samples
+Generate reference wave signal samples
 
 ## Features
-- generate wave samples (currently RAW format only)
-- support for LE16, BE16 and FLOAT
-- define the signal frequency, amplitude, sample rate and duration
+- generate wave samples:
+ - sine
+ - triangle
+ - saw
+ - square
+- define signal parameters:
+ - frequency
+ - amplitude
+ - sample rate
+ - duration 
+- store as LE16, BE16 and FLOAT
+ - currently raw data only
 
 ## Building wavegen
 Requires the [TCLAP][10] parser and `TCLAP_HOME` environment variable
