@@ -26,10 +26,10 @@
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
-#include "audio/SinePcm.h"
 #include "audio/TextEnumConverter.h"
 #include "audio/TypeConverters.h"
 #include "audio/WaveParameters.h"
+#include "audio/PcmSample.h"
 #include <tclap/CmdLine.h>
 
 namespace
@@ -114,19 +114,18 @@ int32_t main( int argc, const char * const * argv )
     
     if ( ::audio::EError_NoError == errorParams )
     {
-        ::audio::SinePcm sample( freqSmpArg.getValue() );
-
-        if ( sample.init( frequency, amplitude, lengthArg.getValue() ) )
+        ::audio::PcmSample sample;
+        if ( ::audio::EError_NoError == sample.generate( waveParams.getContext() ) )
         {
             if ( !fileName.empty() )
             {
                 ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
-
-                sample.toStream( rawFile );
+            
+                sample.toStream( rawFile, ::audio::ESampleFormat_Float );
                 rawFile.close();
                 ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
             }
-        }        
+        }
     }
     else
     {

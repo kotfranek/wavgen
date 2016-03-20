@@ -14,27 +14,40 @@
 #ifndef SINEGENERATOR_H
 #define SINEGENERATOR_H
 
+#include <cstdint>
 #include "audio/IGenerator.h"
 
 namespace audio
-{
-
+{    
+    /**
+     * Generate a reference SINE wave form
+     */
     class SineGenerator : public IGenerator
     {
     public:
-        SineGenerator();
+        /**
+         * Constructor
+         * @param f Signal Frequency [Hz]
+         * @param fSampl Sampling Frequency [Hz]
+         */
+        SineGenerator( const uint32_t f, const uint32_t fSampl );
 
-
+        /**
+         * Destructor
+         */
         virtual ~SineGenerator()
         {        
         }
         
+        
         /**
          * @see IGenerator
          */
-        TSample sample( const size_t index );
+        virtual TSample sample( const size_t index );
         
-    private:                
+    private:          
+        /* Angle factor */
+        const TSample m_angleFactor;
     };
 };
 

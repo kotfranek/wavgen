@@ -32,6 +32,7 @@
 
 #include "audio/PcmSample.h"
 #include "audio/SampleContext.h"
+#include "audio/SineGenerator.h"
 
 namespace audio
 {
@@ -52,12 +53,28 @@ EError PcmSample::generate( const SampleContext& params )
     
     if ( prepareBuffer( numSamples ) )
     {
+        SineGenerator g( params.getFrequency(), params.getSamplingFrequency() );
+        for ( size_t i = 0; i < numSamples; i++ )
+        {
+            m_buffer[ i ] = g.sample( i );
+        }
         
+        result = EError_NoError;
     }
     else
     {
         result = EError_MemAlloc;
     }
+    
+    return result;
+}
+
+
+EError PcmSample::toStream( ::std::ostream& output, const ESampleFormat format ) const
+{
+    EError result = EError_FileSave;
+    
+    output.write( (const char*) m_buffer, sizeof( m_buffer[ 0 ] ) * m_bufferLength );
     
     return result;
 }
@@ -110,6 +127,7 @@ void PcmSample::deleteBuffer()
 {
     delete[] m_buffer;
     m_bufferLength = 0U;
+    m_sampleLength = 0U;
 }
 
 

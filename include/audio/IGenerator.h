@@ -19,6 +19,9 @@
 
 namespace audio
 {
+    /* Max amplitude that can be used for reference singal generator */
+    static const TSample AMPLITUDE_MAX = 100.0 * 1000.0;
+    
     class IGenerator
     {
     public:
@@ -31,10 +34,12 @@ namespace audio
          * @param i index
          * @return sample
          */
-        TSample sample( const size_t i );
+        virtual TSample sample( const size_t i ) = 0;
         
     protected:
-        IGenerator();
+        IGenerator()
+        {            
+        };
     };
 }
 

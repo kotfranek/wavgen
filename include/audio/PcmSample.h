@@ -46,6 +46,11 @@ namespace audio
         PcmSample();
         ~PcmSample();
         
+        /**
+         * Generate the sample into internal buffer
+         * @param params Sample settings
+         * @return EError_NoError in case of success
+         */
         EError generate( const SampleContext& params );
         
         /**

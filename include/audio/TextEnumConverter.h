@@ -90,7 +90,7 @@ namespace audio
                 }
             }
             
-            return INVALID.m_value; 
+            return PTR[ SIZE - 1U ].m_value; 
         }                
         
     private:
@@ -105,11 +105,11 @@ namespace audio
                 }
             }
             
-            return INVALID;            
+            return PTR[ SIZE - 1U ];            
         }
         
         /* Invalid item: always last array element */
-        static constexpr const TEnumStruct& INVALID = PTR[ SIZE - 1U ];
+        //static constexpr const TEnumStruct& INVALID = PTR[ SIZE - 1U ];
     };
 }; // namespace audio
 

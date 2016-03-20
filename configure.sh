@@ -3,7 +3,7 @@
 ### Constant definitions ######################################################
 
 # Project name
-readonly PRJ_NAME="wavgen"
+readonly PRJ_NAME="wavegen"
 
 # External build directory
 readonly BUILD_DIR="build"
@@ -13,6 +13,18 @@ readonly CURRENT_DIR=$(pwd)
 
 # Installation query phrase
 readonly QUERY_INSTALL="Do you wish to install project '${PRJ_NAME}' (requires root privileges)?"
+
+readonly USAGE_INFORMATION="Configure Script for CMake project '${PRJ_NAME}'
+
+USAGE: 
+
+configure.sh [OPTIONS]
+
+OPTIONS:
+
+-b | --build <build_type> select build configuration '${BUILD_RELEASE}' or '${BUILD_DEBUG}'
+-h | --help               print this message
+"
 
 # Build configuration Release
 readonly BUILD_RELEASE="Release"
@@ -32,6 +44,30 @@ GLOB_CMAKE_G_RESULT=-1
 GLOB_CMAKE_BUILD_CFG="${BUILD_RELEASE}"
 
 ### Functions #################################################################
+
+# Print usage information
+usage()
+{
+    printf "%s\n" "${USAGE_INFORMATION}"
+}
+
+# Check the Command Line Arguments
+checkArgs()
+{
+    while [ "${1}" != "" ]; do
+        case $1 in
+            -b | --build )          shift
+                                    GLOB_CMAKE_BUILD_CFG=${1}
+                                    ;;
+            -h | --help )           usage
+                                    exit
+                                    ;;
+            * )                     usage
+                                    exit 1
+        esac
+        shift
+    done
+}
 
 # Create the CMake build environment
 makeEnv()
@@ -86,6 +122,7 @@ cleanUp()
 # Script body
 main()
 {
+    checkArgs "${@}"
     printf "%s\n" "Configure project '${PRJ_NAME}'"
     makeEnv
     if [ ${GLOB_CMAKE_G_RESULT} -eq 0 ]; then

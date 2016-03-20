@@ -37,7 +37,7 @@
 namespace audio
 {
     /* Single sample */
-    typedef float TSample;
+    typedef float TSample;       
         
     /* Audio sample format */
     enum ESampleFormat
