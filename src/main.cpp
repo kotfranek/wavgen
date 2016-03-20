@@ -108,30 +108,33 @@ int32_t main( int argc, const char * const * argv )
     
     ::printSummary( frequency, amplitude );
     
-    ::audio::WaveParameters waveParams( frequency, amplitude, freqSampl, length, "sin", format.c_str() );
-    
-    const ::audio::EError errorParams = waveParams.validate();
-    
-    if ( ::audio::EError_NoError == errorParams )
     {
-        ::audio::PcmSample sample;
-        if ( ::audio::EError_NoError == sample.generate( waveParams.getContext() ) )
+        using namespace audio;
+        
+        WaveParameters waveParams( frequency, amplitude, freqSampl, length, "sin", format.c_str() );
+
+        const EError errorParams = waveParams.validate();
+
+        if ( EError_NoError == errorParams )
         {
-            if ( !fileName.empty() )
+            PcmSample sample;
+            if ( EError_NoError == sample.generate( waveParams.getContext() ) )
             {
-                ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
-            
-                sample.toStream( rawFile, ::audio::ESampleFormat_Float );
-                rawFile.close();
-                ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
+                if ( !fileName.empty() )
+                {
+                    ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
+
+                    sample.toStream( rawFile, ESampleFormat_Float );
+                    rawFile.close();
+                    ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
+                }
             }
         }
-    }
-    else
-    {
-        ::printf( "Error: %s\n", ::audio::TErrorConverter().description( errorParams ) );
-    }
+        else
+        {
+            ::printf( "Error: %s\n", TErrorConverter().description( errorParams ) );
+        }
         
-    
+    }
     return 0;
 }

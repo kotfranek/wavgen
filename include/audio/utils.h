@@ -24,43 +24,28 @@
  */
 
 /* 
- * File:   IGenerator.h
+ * File:   utils.h
  * Author: kret
  *
- * Created on March 18, 2016, 12:10 AM
+ * Created on March 20, 2016, 6:10 PM
  */
 
-#ifndef IGENERATOR_H
-#define IGENERATOR_H
+#ifndef UTILS_H
+#define UTILS_H
 
-#include <cstddef>
-#include "audio/types.h"
+#include <cstdint>
 
 namespace audio
 {
-    /* Max amplitude that can be used for reference singal generator */
-    static const TSample AMPLITUDE_MAX = 100.0 * 1000.0;
-    
-    class IGenerator
-    {
-    public:
-        virtual ~IGenerator()
-        {            
-        };
-        
-        /**
-         * Generate the sample at given index
-         * @param i index
-         * @return sample
-         */
-        virtual TSample sample( const size_t i ) = 0;
-        
-    protected:
-        IGenerator()
-        {            
-        };
-    };
-}
+    /**
+     * Calculate the Signal's period length in samples count.
+     * Tries to do a proper rounding
+     * @param f
+     * @param fSampl
+     * @return period's samples count
+     */
+    uint32_t periodLength( const uint32_t f, const uint32_t fSampl );
+};
 
-#endif /* IGENERATOR_H */
+#endif /* UTILS_H */
 

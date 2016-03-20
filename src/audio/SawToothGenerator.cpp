@@ -30,29 +30,14 @@
  */
 
 #include "audio/SawToothGenerator.h"
-#include <cmath>
-
-namespace
-{
-    uint32_t periodLength( const uint32_t f, const uint32_t fSampl )
-    {
-        uint32_t result = fSampl / f;
-        
-        if ( ( fSampl % f ) > ( result / 2U ) )
-        {
-            ++result;
-        }
-        
-        return result;
-    }
-}
+#include "audio/utils.h"
 
 namespace audio
 {
 
     SawToothGenerator::SawToothGenerator( const uint32_t f, const uint32_t fSampl )
     : IGenerator()
-    , m_periodLength( ::periodLength( f, fSampl ) )    
+    , m_periodLength( periodLength( f, fSampl ) )    
     , m_factor( 1.0 / TSample( m_periodLength ) )
 {
 }
