@@ -1,5 +1,13 @@
 # ChangeLog: wavgen
 
+## 0.2.0
+2016-03-20
+- implemented generators:
+ - sine
+ - triangle
+ - saw
+ - square
+
 ## 0.1.0
 2016-03-20
 - architecture rework

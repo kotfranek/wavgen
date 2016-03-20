@@ -18,6 +18,7 @@
 #include "audio/SineGenerator.h"
 #include "audio/SawToothGenerator.h"
 #include "audio/TriangleGenerator.h"
+#include "audio/SquareGenerator.h"
 
 namespace audio
 {
@@ -41,9 +42,11 @@ namespace audio
                 break; 
             
             case ESignalShape_Square:
+                result = new ( ::std::nothrow ) SquareGenerator( f, fSampl );
+                break;                 
+                
             case ESignalShape_Invalid:
-            default:
-                //result = new ( ::std::nothrow ) SawToothGenerator( f, fSampl );
+            default:                
                 break; 
         }
         
