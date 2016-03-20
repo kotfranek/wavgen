@@ -76,6 +76,7 @@ int32_t main( int argc, const char * const * argv )
     ::TCLAP::ValueArg<uint16_t> amplArg( "a", "amplitude", "Signal amplitude in %", false, 100, "0..100" );
     ::TCLAP::ValueArg<std::string> outputFileArg( "o", "output", "Output file to store the raw audio sample", true, "", "file_name" );
     ::TCLAP::ValueArg<std::string> formatArg( "e", "format", "Sample format: LE16, BE16 or FLOAT", false, "BE16", "format_name" );
+    ::TCLAP::ValueArg<std::string> wavShapeArg( "w", "wave", "Wave shape: sin, saw, triangle or square", false, "sin", "shape_name" );
     ::TCLAP::ValueArg<uint32_t> lengthArg( "t", "time", "Sample duration", false, 1000, "ms" );
     ::TCLAP::SwitchArg loopArg( "l", "loop_enable", "Enable playing of the sample in loops (fill with complete periods)" );    
 
@@ -83,6 +84,7 @@ int32_t main( int argc, const char * const * argv )
     cmd.add( formatArg );
     cmd.add( freqSmpArg );
     cmd.add( loopArg );
+    cmd.add( wavShapeArg );
     
     cmd.add( outputFileArg );    
     cmd.add( amplArg );
@@ -98,7 +100,7 @@ int32_t main( int argc, const char * const * argv )
     }
     
     const ::std::string& fileName = outputFileArg.getValue();
-    //const ::std::string& shape = outputFileArg.getValue();
+    const ::std::string& shape = wavShapeArg.getValue();
     const ::std::string& format = formatArg.getValue();
     
     const uint32_t frequency = freqArg.getValue();
@@ -111,7 +113,7 @@ int32_t main( int argc, const char * const * argv )
     {
         using namespace audio;
         
-        WaveParameters waveParams( frequency, amplitude, freqSampl, length, "sin", format.c_str() );
+        WaveParameters waveParams( frequency, amplitude, freqSampl, length, shape.c_str(), format.c_str() );
 
         const EError errorParams = waveParams.validate();
 

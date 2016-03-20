@@ -32,33 +32,8 @@
 
 #include "audio/PcmSample.h"
 #include "audio/SampleContext.h"
-#include "audio/SineGenerator.h"
-#include "audio/SawToothGenerator.h"
-#include "audio/TriangleGenerator.h"
-
-namespace
-{
-    /**
-     * Get the generator according to the desired shape
-     * @param shape
-     * @return 
-     */
-    /*::audio::IGenerator* getGnerator( const ::audio::ESignalShape shape )
-    {
-        using namespace audio;
-        
-        IGenerator* result = NULL;
-        
-        switch ( shape )
-        {
-            case ESignalShape_Sin:
-                //result = new ( ::std::nothrow ) SineGenerator();
-                break;
-        }
-        
-        return result;
-    }*/
-}
+#include "audio/IGenerator.h"
+#include "audio/GeneratorFactory.h"
 
 namespace audio
 {
@@ -79,13 +54,24 @@ EError PcmSample::generate( const SampleContext& params )
     
     if ( prepareBuffer( numSamples ) )
     {
-        SawToothGenerator g( params.getFrequency(), params.getSamplingFrequency() );
-        for ( size_t i = 0; i < numSamples; i++ )
-        {
-            m_buffer[ i ] = g.sample( i );
-        }
+        IGenerator* gen = createGenerator( params.getShape()
+            , params.getFrequency(), params.getSamplingFrequency() );
         
-        result = EError_NoError;
+        if ( NULL != gen )
+        {
+            for ( size_t i = 0; i < numSamples; i++ )
+            {
+                m_buffer[ i ] = gen->sample( i );
+            }
+            
+            delete gen;
+            
+            result = EError_NoError;
+        }
+        else
+        {
+            result = EError_Shape;
+        }
     }
     else
     {

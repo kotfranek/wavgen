@@ -28,6 +28,7 @@ add_library( wavgen STATIC
     src/audio/SawToothGenerator.cpp
     src/audio/TriangleGenerator.cpp
     src/audio/utils.cpp
+    src/audio/GeneratorFactory.cpp
 )
 
 # Demo application: sources
