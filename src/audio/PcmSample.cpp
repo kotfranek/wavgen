@@ -79,7 +79,7 @@ EError PcmSample::generate( const SampleContext& params )
     
     if ( prepareBuffer( numSamples ) )
     {
-        TriangleGenerator g( params.getFrequency(), params.getSamplingFrequency() );
+        SawToothGenerator g( params.getFrequency(), params.getSamplingFrequency() );
         for ( size_t i = 0; i < numSamples; i++ )
         {
             m_buffer[ i ] = g.sample( i );

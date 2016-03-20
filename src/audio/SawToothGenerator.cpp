@@ -46,7 +46,7 @@ namespace audio
     {
         const size_t normalizedX = index % m_periodLength;
         
-        return m_factor * TSample( normalizedX );
+        return ( 2.0 * m_factor * TSample( normalizedX ) ) - 1.0;
     }
 
 };
