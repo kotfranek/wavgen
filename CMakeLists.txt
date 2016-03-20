@@ -12,7 +12,7 @@ project( "wavgen" )
 
 # Compiler and linker flags
 set( CPP_COMPILE_FLAGS "-g -Wall -std=c++11" )
-#set( CPP_LINK_FLAGS "" )
+set( CPP_LINK_FLAGS "-oS" )
 
 # Header files locations
 include_directories( 
@@ -21,7 +21,7 @@ include_directories(
 )
 
 # Main project library
-add_library( wavgen STATIC
+add_library( wavgen-lib STATIC
     src/audio/WaveParameters.cpp
     src/audio/PcmSample.cpp
     src/audio/SineGenerator.cpp
@@ -33,24 +33,26 @@ add_library( wavgen STATIC
 )
 
 # Demo application: sources
-add_executable( sndtest
+add_executable( wavgen
     src/main.cpp
 )
 
 # Demo application: required libraries
-target_link_libraries( sndtest
-    wavgen
+target_link_libraries( wavgen
+    wavgen-lib
 )
 
 # Set the compiler and linker flags for particular targets
+set_target_properties( wavgen-lib PROPERTIES COMPILE_FLAGS ${CPP_COMPILE_FLAGS} )
 set_target_properties( wavgen PROPERTIES COMPILE_FLAGS ${CPP_COMPILE_FLAGS} )
-set_target_properties( sndtest PROPERTIES COMPILE_FLAGS ${CPP_COMPILE_FLAGS} )
-#set_target_properties( sndtest PROPERTIES LINK_FLAGS ${CPP_LINK_FLAGS} )
+set_target_properties( wavgen PROPERTIES LINK_FLAGS ${CPP_LINK_FLAGS} )
 
 # Target install
-install( TARGETS sndtest DESTINATION bin )
-install( TARGETS wavgen DESTINATION lib )
-install( DIRECTORY 
-    include/ DESTINATION include/${CMAKE_PROJECT_NAME}
-    FILES_MATCHING PATTERN "*.h" 
+install( TARGETS wavgen DESTINATION bin )
+install( TARGETS wavgen-lib DESTINATION lib )
+install( FILES 
+    include/audio/types.h 
+    include/audio/PcmSample.h 
+    DESTINATION include/${CMAKE_PROJECT_NAME}/audio
+    
 )
