@@ -46,42 +46,6 @@ PcmSample::PcmSample()
 }
 
 
-EError PcmSample::generate( const SampleContext& params )
-{
-    EError result = EError_Other;
-    
-    const auto numSamples = params.getSamplesCount();
-    
-    if ( prepareBuffer( numSamples ) )
-    {
-        IGenerator* gen = createGenerator( params.getShape()
-            , params.getFrequency(), params.getSamplingFrequency() );
-        
-        if ( NULL != gen )
-        {
-            for ( size_t i = 0; i < numSamples; i++ )
-            {
-                m_buffer[ i ] = gen->sample( i );
-            }
-            
-            delete gen;
-            
-            result = EError_NoError;
-        }
-        else
-        {
-            result = EError_Shape;
-        }
-    }
-    else
-    {
-        result = EError_MemAlloc;
-    }
-    
-    return result;
-}
-
-
 EError PcmSample::toStream( ::std::ostream& output, const ESampleFormat format ) const
 {
     EError result = EError_FileSave;

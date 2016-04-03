@@ -17,6 +17,7 @@
 #define PCMGENERATOR_H
 
 #include "audio/types.h"
+#include "audio/PcmSample.h"
 
 namespace audio
 {
@@ -36,8 +37,27 @@ namespace audio
          */
         EError generate( const SampleContext& params );
         
+        /**
+         * Scale the sample by the given factor
+         * @param factor
+         */
+        void scale( const double factor );
+        
+        
+        /**
+         * Expose the const reference to the PcmSample object
+         * @return 
+         */
+        const PcmSample& sample() const
+        {
+            return m_sample;
+        }
+        
     private:
         PcmGenerator(const PcmGenerator& orig);
+        
+        /* Sample Instance */
+        PcmSample m_sample;
     };
 
 };

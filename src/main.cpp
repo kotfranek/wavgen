@@ -30,6 +30,7 @@
 #include "audio/TypeConverters.h"
 #include "audio/WaveParameters.h"
 #include "audio/PcmSample.h"
+#include "audio/PcmGenerator.h"
 #include <tclap/CmdLine.h>
 
 namespace
@@ -119,14 +120,14 @@ int32_t main( int argc, const char * const * argv )
 
         if ( EError_NoError == errorParams )
         {
-            PcmSample sample;
-            if ( EError_NoError == sample.generate( waveParams.getContext() ) )
+            PcmGenerator pcmGen;
+            if ( EError_NoError == pcmGen.generate( waveParams.getContext() ) )
             {
                 if ( !fileName.empty() )
                 {
                     ::std::ofstream rawFile( fileName.c_str(), ::std::ios::binary | ::std::ios::trunc );
 
-                    sample.toStream( rawFile, ESampleFormat_Float );
+                    pcmGen.sample().toStream( rawFile, ESampleFormat_Float );
                     rawFile.close();
                     ::printf( "Sample stored to file '%s'\n", fileName.c_str() );
                 }

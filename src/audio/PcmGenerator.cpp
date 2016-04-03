@@ -12,6 +12,9 @@
  */
 
 #include "audio/PcmGenerator.h"
+#include "audio/SampleContext.h"
+#include "audio/IGenerator.h"
+#include "audio/GeneratorFactory.h"
 
 namespace audio
 {
@@ -23,7 +26,40 @@ PcmGenerator::PcmGenerator()
 
 EError PcmGenerator::generate( const SampleContext& params )
 {
-    return EError_Other;
+    EError result = EError_Other;
+    
+    const auto numSamples = params.getSamplesCount();
+    
+    if ( m_sample.prepareBuffer( numSamples ) )
+    {
+        IGenerator* gen = createGenerator( params.getShape()
+            , params.getFrequency(), params.getSamplingFrequency() );
+        
+        if ( NULL != gen )
+        {
+            auto buffer = m_sample.data();
+            const auto size = m_sample.length();
+            
+            for ( size_t i = 0; i < size; i++ )
+            {
+                buffer[ i ] = gen->sample( i );
+            }
+            
+            delete gen;
+            
+            result = EError_NoError;
+        }
+        else
+        {
+            result = EError_Shape;
+        }
+    }
+    else
+    {
+        result = EError_MemAlloc;
+    }
+    
+    return result;
 }
 
 

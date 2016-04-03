@@ -47,11 +47,12 @@ namespace audio
         ~PcmSample();
         
         /**
-         * Generate the sample into internal buffer
-         * @param params Sample settings
-         * @return EError_NoError in case of success
+         * Prepares the sample buffer. 
+         * Create if not exist or just resize.
+         * @param size new length (samples count)
+         * @return true on success
          */
-        EError generate( const SampleContext& params );
+        bool prepareBuffer( const size_t size );        
         
         /**
          * Write the previously generated sample into an output stream
@@ -60,16 +61,27 @@ namespace audio
          * @return EError_NoError in case of success
          */
         EError toStream( ::std::ostream& output, const ESampleFormat format ) const;
-    private:
         
         /**
-         * Prepares the sample buffer. 
-         * Create if not exist or just resize.
-         * @param size new length (samples count)
-         * @return true on success
+         * Expose the internal buffer
+         * @return 
          */
-        bool prepareBuffer( const size_t size );
+        TSample* data()
+        {
+            return m_buffer;
+        }
         
+        
+        /**
+         * Get the sample length
+         * @return 
+         */
+        size_t length() const
+        {
+            return m_bufferLength;
+        }
+        
+    private:                
         /**
          * Allocate new buffer with the given sample count
          * @param size
