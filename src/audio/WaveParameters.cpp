@@ -41,7 +41,7 @@ WaveParameters::WaveParameters( const uint32_t freq, const uint8_t amplitude
     , const uint32_t samplFreq, const uint32_t duration
     , const char* shape, const char* format ) 
     : m_context( freq , amplitude, samplFreq, duration
-        , TSignalShapeConverter().enumeration( shape ) )
+    , TSignalShapeConverter().enumeration( shape ) )
     , m_outputFormat( TSampleFormatConverter().enumeration( format ) )
 {
 
