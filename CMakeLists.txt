@@ -24,6 +24,7 @@ include_directories(
 add_library( wavgen-lib STATIC
     src/audio/WaveParameters.cpp
     src/audio/PcmSample.cpp
+    src/audio/PcmGenerator.cpp
     src/audio/SineGenerator.cpp
     src/audio/SawToothGenerator.cpp
     src/audio/TriangleGenerator.cpp

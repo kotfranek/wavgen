@@ -65,7 +65,7 @@ namespace audio
         /**
          * Prepares the sample buffer. 
          * Create if not exist or just resize.
-         * @param size new length
+         * @param size new length (samples count)
          * @return true on success
          */
         bool prepareBuffer( const size_t size );
